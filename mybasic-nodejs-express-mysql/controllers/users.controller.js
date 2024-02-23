@@ -53,10 +53,10 @@ async function getUserById(req, res){
  * @returns 
  */
 async function createUser(req, res) {
-    const { pseudo, email, password } = req.body;
+    const { pseudo, email, password, passwordConf } = req.body;
   
-    if (!pseudo || !email) {
-      return res.status(400).json({ message: 'Les champs "pseudo" et "email" sont requis' });
+    if (!pseudo || !email || !password || !passwordConf) {
+      return res.status(400).json({ message: 'Vous devez remplir tous les champs' });
     }
   
     try {
@@ -66,10 +66,15 @@ async function createUser(req, res) {
       if (existingUser) {
         return res.status(409).json({ message: 'Un utilisateur avec cet email existe déjà' });
       }
-  
-      // Création de l'utilisateur
-      const newUser = await User.createUser({ pseudo, email, password });
-      res.status(201).json(newUser.message = "Utilisateur enregistré avec succès !");
+      if(password === passwordConf){
+        // Création de l'utilisateur
+        const newUser = await User.createUser({ pseudo, email, password });
+        res.status(201).json(newUser.message = "Utilisateur enregistré avec succès !");
+      }else{
+        return res.status(409).json({ message: 'Les deux mots de passe ne correspondent pas' });
+      }
+      
+
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
@@ -87,20 +92,21 @@ async function createUser(req, res) {
    */
   async function updateUser(req, res) {
     const userId = req.params.id;
-    const { pseudo, email, password } = req.body;
+    const { pseudo, email, password, passwordConf} = req.body;
   
-    if (!pseudo || !email || !password) {
-      return res.status(400).json({ message: 'Les champs "pseudo" et "email" sont requis' });
+    if (!pseudo || !email || !password || !passwordConf) {
+      return res.status(400).json({ message: 'Tous les champs sont requis' });
     }
   
     try {
-      const updatedUser = await User.updateUser(userId, { pseudo, email, password });
-      
-      if (!updatedUser) {
-        return res.status(404).json({ message: 'Utilisateur non trouvé' });
+      if(password === passwordConf){
+        // Update du profil dans la bdd
+        const updatedUser = await User.updateUser(userId, { pseudo, email, password })
+        res.status(201).json(updatedUser.message = "Profil mis à jour avec succès !");
+      }else{
+        return res.status(409).json({ message: 'Les deux mots de passe ne correspondent pas' });
       }
-  
-      res.json(updatedUser.message = "Utilisateur mis à jour !");
+      
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
@@ -142,20 +148,24 @@ async function createUser(req, res) {
  */ 
 async function login(req, res) {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Tous les champs sont requis' });
+    }
   
     try {
       // Rechercher l'utilisateur par son e-mail
       const user = await User.getUserByEmail(email);
   
       if (!user) {
-        return res.status(401).json({ message: 'E-mail ou mot de passe incorrect' });
+        return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
       }
   
       // Vérifier le mot de passe
       const passwordMatch = await bcrypt.compare(password, user.password);
   
       if (!passwordMatch) {
-        return res.status(401).json({ message: 'E-mail ou mot de passe incorrect' });
+        return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
       }
   
       // Connexion réussie, renvoyer les informations de l'utilisateur connecté
