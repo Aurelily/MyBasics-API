@@ -23,14 +23,15 @@ const Navigation = () => {
         <>
             {userDataString ? (
                 <nav>
-                    <Link to={`./home`}>Home</Link>
+                    <Link to={`./home`}>Accueil</Link>
+                    <Link to={`./profil`}>Mon profil</Link>
                     <button onClick={handleDisconnect}>Disconnect</button>
                  </nav>
             ) : (
                 <nav>
-                    <Link to={`./home`}>Home</Link>
-                    <Link to={`./login`}>Login</Link>
-                    <Link to={`./register`}>Register</Link>
+                    <Link to={`./home`}>Accueil</Link>
+                    <Link to={`./login`}>Se connecter</Link>
+                    <Link to={`./register`}>S'enregistrer</Link>
                 </nav>
             )}
 

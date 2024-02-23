@@ -6,6 +6,9 @@ import { useState } from "react";
 
 const LoginScreen = ()=>{
 
+    // State qui stock les messages d'erreur qu'enverra le backend
+    const [error, setError] = useState(null);
+
     // Le hook useNavigate servira aux redirections de pages
     const navigate = useNavigate();
 
@@ -50,6 +53,9 @@ const LoginScreen = ()=>{
           } else {
 
             console.error("Login failed");
+
+            const errorMessage = await response.json();
+            setError(errorMessage.message);
           }
         } catch (error) {
           console.error("Error during login:", error);
@@ -60,7 +66,8 @@ const LoginScreen = ()=>{
     return (
       
         <div className="centered-container">
-            <h1>Login Screen</h1>
+            <h1>Connexion</h1>
+            {error && <p className="error">{error}</p>}
             <Form method="post" onSubmit={handleSubmit}>    
                 <Input
                     type="email"
@@ -71,14 +78,14 @@ const LoginScreen = ()=>{
                 />
                     <Input
                     type="password"
-                    placeholder="Password"
+                    placeholder="Mot de passe"
                     name="password" 
                     value={formData.password}
                     onChange={handleInputChange}
                 />
-                <button type="submit">Login</button>
+                <button type="submit">Se connecter</button>
             </Form>
-            <a href="./register">Please register here if you don't have account!</a>
+            <a href="./register">Créez un compte ici si vous n'en avez pas encore !</a>
         </div>
        
       );

@@ -11,13 +11,13 @@ const HomeScreen = ()=>{
         <>
 {userData ? (
         <div className="centered-container">
-            <h1>Home page du site !</h1>
+            <h1>Accueil du site !</h1>
             <h2>Bienvenue {userData.pseudo}</h2>
         </div>
       ) : (
         <div className="centered-container">
-          <h1>Home page du site !</h1>
-          <a href="./login">Please login here !</a>
+          <h1>Accueil du site !</h1>
+          <a href="./login">Veuillez vous connecter ici pour accéder au contenu !</a>
         </div>
       )}
         </>

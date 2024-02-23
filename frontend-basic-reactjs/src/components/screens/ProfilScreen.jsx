@@ -3,10 +3,14 @@ import Input from "../elements/Input"
 import { Form, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const RegisterScreen = ()=>{
+const ProfilScreen = ()=>{
 
     // State qui stock les messages d'erreur qu'enverra le backend
     const [error, setError] = useState(null);
+
+    // Récupérer des informations du user connecté depuis sessionstorage
+      const userDataString = sessionStorage.getItem('userData');
+      const userData = JSON.parse(userDataString);
 
     const navigate = useNavigate();
 
@@ -26,14 +30,14 @@ const RegisterScreen = ()=>{
         });
     };
 
-    // Fonction qui envoi les données à la route du backend : http://localhost:5000/users/register
+    // Fonction qui envoi les données à la route du backend : http://localhost:5000/users/update/:id
 
     const handleSubmit = async (e) => {
         e.preventDefault();
     
         try {
-          const response = await fetch("http://localhost:5000/users/register", {
-            method: "POST",
+          const response = await fetch("http://localhost:5000/users/update/" + userData.id, {
+            method: "PUT",
             headers: {
               "Content-Type": "application/json",
             },
@@ -42,14 +46,16 @@ const RegisterScreen = ()=>{
     
           if (response.ok) {
 
-            console.log("Register OK !");
+            console.log("Update OK !");
+            sessionStorage.clear();
             navigate("/login");
 
           } else {
 
+            console.error("register failed");
+
             const errorMessage = await response.json();
             setError(errorMessage.message);
-
           }
         } catch (error) {
           console.error("Error during register:", error);
@@ -59,9 +65,10 @@ const RegisterScreen = ()=>{
     return (
         <>
             <div className="centered-container">
-                <h1>Inscription</h1>
+                <h1>Votre profil</h1>
                 {error && <p className="error">{error}</p>}
                 <Form method="post" onSubmit={handleSubmit}>
+                  <p>Pseudo actuel : {userData.pseudo}</p>
                     <Input
                         type="text"
                         placeholder="Pseudo"
@@ -69,6 +76,7 @@ const RegisterScreen = ()=>{
                         value={formData.pseudo}
                         onChange={handleInputChange}
                     />
+                    <p>Email actuel : {userData.email}</p>
                     <Input
                         type="email"
                         placeholder="Email"
@@ -76,6 +84,7 @@ const RegisterScreen = ()=>{
                         value={formData.email}
                         onChange={handleInputChange}
                     />
+                    <p>Entrez un mot de passe et sa confirmation :</p>
                     <Input
                         type="password"
                         placeholder="Mot de passe"
@@ -90,13 +99,12 @@ const RegisterScreen = ()=>{
                         value={formData.passwordConf}
                         onChange={handleInputChange}
                     />
-                    <button type="submit">S'enregistrer</button>
+                    <button type="submit">Mettre à jour</button>
                 </Form>
-                <a href="./login">Connectez vous ici si vous avez déjà un compte!</a>
             </div>
         </>
       );
     
 }
 
-export default RegisterScreen
+export default ProfilScreen
