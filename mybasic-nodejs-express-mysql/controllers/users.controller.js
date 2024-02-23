@@ -159,7 +159,7 @@ async function login(req, res) {
       }
   
       // Connexion réussie, renvoyer les informations de l'utilisateur connecté
-      res.json({
+      return res.json({
         id: user.id,
         pseudo: user.pseudo,
         email: user.email,

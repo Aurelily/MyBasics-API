@@ -20,6 +20,10 @@ const router = createBrowserRouter([
     errorElement: <ErrorScreen/>,
     children: [
       {
+        index: true, // Utiliser "index" au lieu de "path" pour déterminer la route affichée par défaut par l'URL (l'index)
+        element: <HomeScreen/>,
+      },
+      {
         path: "/home",
         element: <HomeScreen/>,
       },
@@ -31,6 +35,7 @@ const router = createBrowserRouter([
         path: "/register",
         element: <RegisterScreen/>,
       }
+      
     ]
   },
   

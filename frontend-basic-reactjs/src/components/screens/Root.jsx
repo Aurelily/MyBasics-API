@@ -8,7 +8,6 @@ export default function Root() {
             <Navigation/>
         </header>
         <div>
-            <h3>Bienvenue Pseudo</h3>
             <Outlet/>
         </div>
     </>
