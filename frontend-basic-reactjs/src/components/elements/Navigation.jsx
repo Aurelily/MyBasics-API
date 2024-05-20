@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 
 const Navigation = () => {
 
@@ -23,15 +23,15 @@ const Navigation = () => {
         <>
             {userDataString ? (
                 <nav>
-                    <Link to={`./home`}>Accueil</Link>
-                    <Link to={`./profil`}>Mon profil</Link>
+                    <NavLink to={`./home`}>Accueil</NavLink>
+                    <NavLink to={`./profil`}>Mon profil</NavLink>
                     <button onClick={handleDisconnect}>Disconnect</button>
                  </nav>
             ) : (
                 <nav>
-                    <Link to={`./home`}>Accueil</Link>
-                    <Link to={`./login`}>Se connecter</Link>
-                    <Link to={`./register`}>S'enregistrer</Link>
+                    <NavLink to={`./home`}>Accueil</NavLink>
+                    <NavLink to={`./login`}>Se connecter</NavLink>
+                    <NavLink to={`./register`}>S'enregistrer</NavLink>
                 </nav>
             )}
 
