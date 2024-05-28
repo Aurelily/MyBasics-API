@@ -1,5 +1,6 @@
 const express = require("express");
-const userRouter = require("./routes/user.routes.js");
+// const userRouter = require("./routes/user.routes.js");
+const router = require("./routes/routes");
 const cors = require("cors");
 
 const app = express();
@@ -30,7 +31,7 @@ db.on("error", (err) => {
 app.use(express.json());
 
 // Utiliser le routeur utilisateur
-app.use(userRouter);
+app.use(router);
 
 // Démarrer le serveur
 const port = 3000;
