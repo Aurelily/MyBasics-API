@@ -1,8 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const validator = require("validator");
-const bcrypt = require("bcrypt");
-const User = require("../models/users.model.js");
 const userController = require("../controllers/users.controller.js");
 
 // READ :  Route pour récupérer tous les users
