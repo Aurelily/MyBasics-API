@@ -1,4 +1,3 @@
-const express = require("express");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const User = require("../models/users.model.js");

@@ -1,7 +1,7 @@
 const express = require("express");
-// const userRouter = require("./routes/user.routes.js");
 const router = require("./routes/routes");
 const cors = require("cors");
+const connectDB = require("./config/database");
 
 const app = express();
 
@@ -9,23 +9,7 @@ const app = express();
 app.use(cors());
 
 // Database connection
-/* require("./config/database.js"); */
-
-// Database connection
-const mongoose = require("mongoose");
-
-mongoose.connect("mongodb://localhost:27017/MyBasicApi");
-
-const db = mongoose.connection;
-
-db.on("connected", () => {
-  console.log(`Connected MongoDB database ${db.name} à ${db.host}:${db.port}`);
-});
-
-db.on("error", (err) => {
-  console.error(`Error in MongoDb connection: ${err}`);
-  process.exit();
-});
+connectDB();
 
 // Middleware pour parser les requêtes JSON
 app.use(express.json());
