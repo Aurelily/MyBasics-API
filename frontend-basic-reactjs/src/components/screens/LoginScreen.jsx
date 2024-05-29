@@ -3,7 +3,7 @@ import Input from "../elements/Input";
 import { Form, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const LoginScreen = () => {
+const LoginScreen = ({ appUrl }) => {
   // State qui stock les messages d'erreur qu'enverra le backend
   const [error, setError] = useState(null);
 
@@ -30,7 +30,7 @@ const LoginScreen = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/users/login", {
+      const response = await fetch(appUrl + "/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,13 +47,21 @@ const LoginScreen = () => {
 
         navigate("/"); // Redirection vers la page d'accueil
       } else {
-        console.error("Login failed");
-
-        const errorMessage = await response.json();
+        let errorMessage;
+        const text = await response.text(); // Capture the raw response text
+        try {
+          errorMessage = JSON.parse(text);
+        } catch (error) {
+          console.error("Failed to parse JSON:", text); // Log the raw response text for debugging
+          errorMessage = {
+            message: "Erreur lors de l'analyse de la réponse du serveur",
+          };
+        }
         setError(errorMessage.message);
       }
     } catch (error) {
       console.error("Error during login:", error);
+      setError("Erreur de connexion au serveur");
     }
   };
 

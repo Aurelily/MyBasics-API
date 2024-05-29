@@ -1,9 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
 // components
@@ -14,37 +11,42 @@ import ProfilScreen from "./components/screens/ProfilScreen";
 import HomeScreen from "./components/screens/HomeScreen";
 import ErrorScreen from "./components/screens/ErrorScreen";
 
+// Variable :
+const appUrl = "http://localhost:5000";
+
+// Wrapper pour injecter les props
+const withProps = (Component, props) => {
+  return <Component {...props} />;
+};
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root/>,
-    errorElement: <ErrorScreen/>,
+    element: <Root />,
+    errorElement: <ErrorScreen />,
     children: [
       {
         index: true, // Utiliser "index" au lieu de "path" pour déterminer la route affichée par défaut par l'URL (l'index)
-        element: <HomeScreen/>,
+        element: <HomeScreen />,
       },
       {
         path: "/home",
-        element: <HomeScreen/>,
+        element: <HomeScreen />,
       },
       {
         path: "/login",
-        element: <LoginScreen/>,
+        element: withProps(LoginScreen, { appUrl }),
       },
       {
         path: "/register",
-        element: <RegisterScreen/>,
+        element: withProps(RegisterScreen, { appUrl }),
       },
       {
         path: "/profil",
-        element: <ProfilScreen/>,
-      }
-      
-    ]
+        element: withProps(ProfilScreen, { appUrl }),
+      },
+    ],
   },
-  
-
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

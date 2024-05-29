@@ -3,7 +3,7 @@ import Input from "../elements/Input";
 import { Form, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const ProfilScreen = () => {
+const ProfilScreen = ({ appUrl }) => {
   // State qui stock les messages d'erreur qu'enverra le backend
   const [error, setError] = useState(null);
 
@@ -36,7 +36,7 @@ const ProfilScreen = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/users/update/" + userData.id,
+        { appUrl } + "/users/update/" + userData.id,
         {
           method: "PUT",
           headers: {
