@@ -2,6 +2,7 @@
 import Input from "../elements/Input";
 import { Form, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 const ProfilScreen = ({ appUrl }) => {
   // State qui stock les messages d'erreur qu'enverra le backend
@@ -29,38 +30,45 @@ const ProfilScreen = ({ appUrl }) => {
     });
   };
 
-  // Fonction qui envoi les données à la route du backend : /users/update/:id
+  // Fonction qui envoi les données à la route du backend : update&id=
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     console.log("Données envoyées pour la mise à jour:", formData); // Débogage
 
-    try {
-      const response = await fetch(`${appUrl}update/${userData.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    // Vérifier si tous les champs sont remplis
+    if (
+      !formData.pseudo ||
+      !formData.email ||
+      !formData.password ||
+      !formData.passwordConf
+    ) {
+      setError("Veuillez remplir tous les champs");
+      return;
+    }
 
-      if (response.ok) {
+    // Vérifier si le mot de passe et la confirmation correspondent
+    if (formData.password !== formData.passwordConf) {
+      setError("Les mots de passe ne correspondent pas");
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        `${appUrl}update&id=${userData.id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
         console.log("Update OK !");
         sessionStorage.clear();
         navigate("/login");
-      } else {
-        console.error("Update failed");
-
-        // Vérifier si le corps de la réponse est vide
-        const errorMessage = await response.text();
-        console.log("Réponse du serveur:", errorMessage); // Débogage
-
-        if (errorMessage) {
-          setError(JSON.parse(errorMessage).message);
-        } else {
-          setError("Une erreur inconnue est survenue.");
-        }
       }
     } catch (error) {
       console.error("Error during update:", error);

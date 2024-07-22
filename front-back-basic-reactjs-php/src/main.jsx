@@ -12,7 +12,7 @@ import HomeScreen from "./components/screens/HomeScreen";
 import ErrorScreen from "./components/screens/ErrorScreen";
 import UsersListScreen from "./components/screens/UsersListScreen";
 
-// API : myBasic-php-mysql (routeur manuel à base de GETt)
+// API : myBasic-php-mysql (routeur manuel à base de conditions)
 // ---------------------------------------
 
 const appUrl =

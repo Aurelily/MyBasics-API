@@ -2,10 +2,11 @@
 import Input from "../elements/Input";
 import { Form, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 const LoginScreen = ({ appUrl }) => {
   // State qui stock les messages d'erreur qu'enverra le backend
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
   // Le hook useNavigate servira aux redirections de pages
   const navigate = useNavigate();
@@ -25,43 +26,29 @@ const LoginScreen = ({ appUrl }) => {
     });
   };
 
-  // Fonction qui envoi les données à la route du backend : /users/login
+  // Fonction qui envoi les données à la route du backend : login
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(appUrl + "login", {
-        method: "POST",
+      const response = await axios.post(appUrl + "login", formData, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
       });
-
-      if (response.ok) {
-        const user = await response.json(); // Récupérer l'objet utilisateur du corps de la réponse JSON
+      console.log(response.status);
+      if (response.status === 200) {
+        const user = await response.data; // Récupérer l'objet utilisateur du corps de la réponse
         console.log("Login OK! User:", user);
 
         // Stocker l'objet utilisateur dans sessionStorage : les données dans sessionStorage sont limitées à la durée de vie de la session de navigation
         sessionStorage.setItem("userData", JSON.stringify(user));
 
         navigate("/"); // Redirection vers la page d'accueil
-      } else {
-        let errorMessage;
-        const text = await response.text(); // Capture the raw response text
-        try {
-          errorMessage = JSON.parse(text);
-        } catch (error) {
-          console.error("Failed to parse JSON:", text); // Log the raw response text for debugging
-          errorMessage = {
-            message: "Erreur lors de l'analyse de la réponse du serveur",
-          };
-        }
-        setError(errorMessage.message);
       }
     } catch (error) {
-      console.error("Error during login:", error);
-      setError("Erreur de connexion au serveur");
+      setError("Email ou mot de passe incorrect");
+      console.error("Erreur lors de la soumission du formulaire:", error);
     }
   };
 

@@ -15,6 +15,7 @@ const RegisterScreen = ({ appUrl }) => {
     pseudo: "",
     email: "",
     password: "",
+    passwordConf: "",
   });
 
   // Fonction qui va set les données au moment où elles sont tapées dans les champs
@@ -27,42 +28,24 @@ const RegisterScreen = ({ appUrl }) => {
   };
 
   // Fonction qui envoi les données à la route du backend : register
-
   const handleSubmit = async (e) => {
-    axios
-      .post(appUrl + "register", formData)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
-  /*   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-
-      if (response.ok) {
+      const response = await axios.post(appUrl + "register", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response.status);
+      if (response.status === 200) {
         console.log("Register OK !");
         navigate("/login");
-      } else {
-        let errorMessage;
-        try {
-          errorMessage = await response.json();
-        } catch (error) {
-          errorMessage = {
-            message: "Erreur lors de l'analyse de la réponse du serveur",
-          };
-        }
-        setError(errorMessage.message);
       }
     } catch (error) {
-      console.error("Error during register:", error);
-      setError("Erreur de connexion au serveur");
+      console.error("Erreur lors de la soumission du formulaire:", error);
     }
-  }; */
+  };
 
   return (
     <>
