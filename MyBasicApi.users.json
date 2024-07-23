@@ -1,0 +1,54 @@
+[{
+  "_id": {
+    "$oid": "6650a536ddd2ff91bf9b6c63"
+  },
+  "pseudo": "John",
+  "email": "john@gmail.com",
+  "password": "$2b$10$HmlA9PYshOIZXDITAaxdteSf8QEmXNkEmUjMKpAidBuGRRJNbKrVK",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6650a545ddd2ff91bf9b6c66"
+  },
+  "pseudo": "Sebastien",
+  "email": "seb@gmail.com",
+  "password": "$2b$10$wZxEWaHPdGSTigJq4ttW7eNhYNMMYzGq5Qh21MyIvlZZTRbsTyOl.",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6650a54dddd2ff91bf9b6c69"
+  },
+  "pseudo": "Louli",
+  "email": "lily@gmail.com",
+  "password": "Azerty1!",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6650a5e258c1aa83d5b86fd9"
+  },
+  "pseudo": "Alicia",
+  "email": "alicia@gmail.com",
+  "password": "$2b$10$5XF6WnFl9AuCk7XiJiy3MeMkX/amFM9.FObDwdyS01LSqPJ5zp/WS",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6655b20f02be0b4f4029267a"
+  },
+  "pseudo": "Pierre",
+  "email": "pierre@gmail.com",
+  "password": "$2b$10$ksK3PefaeM43rqilmVlpHOiQ35ty8vn7wzneRjrfpdVJrPThSmhRu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6657180edee230c042b36551"
+  },
+  "pseudo": "Joris",
+  "email": "joris@gmail.com",
+  "password": "$2b$10$2LgN0a6jA1Wpmp3d9jsZn.86pB5gsoQG88ZKQt5FA/xq5HGMmT0JK",
+  "__v": 0
+}]
