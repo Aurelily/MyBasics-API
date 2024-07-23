@@ -25,13 +25,13 @@ const RegisterScreen = ({ appUrl }) => {
     });
   };
 
-  // Fonction qui envoi les données à la route du backend : http://localhost:3000/users/register
+  // Fonction qui envoi les données à la route du backend : users/register
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(appUrl + "/users/register", {
+      const response = await fetch(appUrl + "users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

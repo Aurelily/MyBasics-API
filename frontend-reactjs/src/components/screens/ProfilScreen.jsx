@@ -29,35 +29,45 @@ const ProfilScreen = ({ appUrl }) => {
     });
   };
 
-  // Fonction qui envoi les données à la route du backend : http://localhost:3000/users/update/:id
+  // Fonction qui envoi les données à la route du backend : users/update/:id
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Vérifier si tous les champs sont remplis
+    if (
+      !formData.pseudo ||
+      !formData.email ||
+      !formData.password ||
+      !formData.passwordConf
+    ) {
+      setError("Veuillez remplir tous les champs");
+      return;
+    }
+
+    // Vérifier si le mot de passe et la confirmation correspondent
+    if (formData.password !== formData.passwordConf) {
+      setError("Les mots de passe ne correspondent pas");
+      return;
+    }
+
     try {
-      const response = await fetch(
-        { appUrl } + "/users/update/" + userData.id,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${appUrl}users/update/${userData.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (response.ok) {
         console.log("Update OK !");
         sessionStorage.clear();
         navigate("/login");
-      } else {
-        console.error("register failed");
-
-        const errorMessage = await response.json();
-        setError(errorMessage.message);
       }
     } catch (error) {
       console.error("Error during register:", error);
+      setError("Une erreur réseau est survenue.");
     }
   };
 

@@ -10,9 +10,11 @@ import RegisterScreen from "./components/screens/RegisterScreen";
 import ProfilScreen from "./components/screens/ProfilScreen";
 import HomeScreen from "./components/screens/HomeScreen";
 import ErrorScreen from "./components/screens/ErrorScreen";
+import UsersListScreen from "./components/screens/UsersListScreen";
 
-// Variable :
-const appUrl = "http://localhost:5000";
+// Variable pour déterminer quelle API vous voulez utiliser :
+// Port 5000 pour NodeJS/MySQL
+const appUrl = "http://localhost:5000/";
 
 // Wrapper pour injecter les props
 const withProps = (Component, props) => {
@@ -44,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "/profil",
         element: withProps(ProfilScreen, { appUrl }),
+      },
+      {
+        path: "/list",
+        element: withProps(UsersListScreen, { appUrl }),
       },
     ],
   },

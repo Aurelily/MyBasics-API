@@ -4,6 +4,8 @@ const UsersListScreen = ({ appUrl }) => {
   // State qui stock la liste des users
   const [users, setUsers] = useState(undefined);
 
+  // Fonction qui renvoi la liste des users via la route du backend : users
+
   async function fetchAllUsers() {
     try {
       const response = await fetch(`${appUrl}users`, {

@@ -25,12 +25,12 @@ const LoginScreen = ({ appUrl }) => {
     });
   };
 
-  // Fonction qui envoi les données à la route du backend : http://localhost:3000/users/login
+  // Fonction qui envoi les données à la route du backend : users/login
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(appUrl + "/users/login", {
+      const response = await fetch(appUrl + "users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
