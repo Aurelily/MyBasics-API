@@ -24,3 +24,9 @@ Pour visualiser la BDD connectez vous à MongoDB Compass et importez le JSON se 
 
 Ceci est un projet complet avec un frontend en React JS couplé à une API en PHP Natif, avec un router manuel.
 Le dossier de l'API se trouve dans le projet. Il se nomme "api-php-mysql"
+
+---
+
+# CYPRESS : Frameworks de tests end to end : https://docs.cypress.io/
+
+Ce framework de test en JS a été installé pour tester
