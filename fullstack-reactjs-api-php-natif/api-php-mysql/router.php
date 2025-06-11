@@ -1,8 +1,6 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: DELETE, PUT, POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
-header('Content-Type: application/json');
+require_once('./cors.php'); 
+
 
 include './config/Database.php';
 
@@ -38,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['user']) && isset($_GET[
 
 
 // Route pour récupérer tous les utilisateurs
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['allUsers'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['list'])) {
     $result = $user->getUsers();
     echo json_encode($result);
     exit();

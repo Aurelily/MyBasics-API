@@ -22,7 +22,7 @@ class UsersModel extends Database  {
     }
     
 
-    // GET : /allUsers : récupère tous les users de la bdd
+    // GET : /list : récupère tous les users de la bdd
     //--------------------------------------------------------
 
     public function getUsers() {

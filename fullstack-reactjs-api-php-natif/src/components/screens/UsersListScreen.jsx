@@ -1,35 +1,58 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 const UsersListScreen = ({ appUrl }) => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(appUrl + "allUsers")
+    fetch(appUrl + "list", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => {
-        //console.log("API Response:", response.data);
-        //console.log(response);
-        setUsers(response.data);
+        if (!response.ok) {
+          throw new Error("Erreur serveur : " + response.status);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUsers(data);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
-        setError("Erreur lors de la récupération des données");
+        console.error("Erreur de récupération :", error);
+        setError("Impossible de charger les utilisateurs.");
       });
   }, []);
 
   return (
     <div>
-      <h1>Users List</h1>
-      {error && <p>{error}</p>}
-      <ul>
-        {Array.isArray(users) ? (
-          users.map((user) => <li key={user.id}>{user.pseudo}</li>)
-        ) : (
-          <li>No users found</li>
-        )}
-      </ul>
+      <h1>Liste des utilisateurs</h1>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {Array.isArray(users) && users.length > 0 ? (
+        <table border="1" cellPadding="8">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Pseudo</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user, index) => (
+              <tr key={user.id}>
+                <td>{index + 1}</td>
+                <td>{user.pseudo}</td>
+                <td>{user.email}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>Aucun utilisateur trouvé</p>
+      )}
     </div>
   );
 };

@@ -16,7 +16,7 @@ import UsersListScreen from "./components/screens/UsersListScreen";
 // ---------------------------------------
 
 const appUrl =
-  "http://localhost/MyBasics-API/front-back-basic-reactjs-php/api-php-mysql/router.php?";
+  "http://localhost/MyBasics-API/fullstack-reactjs-api-php-natif/api-php-mysql/router.php?";
 
 // Wrapper pour injecter les props
 const withProps = (Component, props) => {

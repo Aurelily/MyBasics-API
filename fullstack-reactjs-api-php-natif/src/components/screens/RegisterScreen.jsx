@@ -1,16 +1,9 @@
-// Components imports
-import Input from "../elements/Input";
-import { Form, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Input from "../elements/Input";
 
 const RegisterScreen = ({ appUrl }) => {
-  // State qui stock les messages d'erreur qu'enverra le backend
   const [error, setError] = useState(null);
-
-  const navigate = useNavigate();
-
-  // State qui va contenir le contenu des champs du formulaire
   const [formData, setFormData] = useState({
     pseudo: "",
     email: "",
@@ -18,74 +11,76 @@ const RegisterScreen = ({ appUrl }) => {
     passwordConf: "",
   });
 
-  // Fonction qui va set les données au moment où elles sont tapées dans les champs
+  const navigate = useNavigate();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
-  // Fonction qui envoi les données à la route du backend : register
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post(appUrl + "register", formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(response.status);
-      if (response.status === 200) {
-        console.log("Register OK !");
+    fetch(appUrl + "register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erreur lors de l'inscription");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Utilisateur enregistré :", data);
         navigate("/login");
-      }
-    } catch (error) {
-      console.error("Erreur lors de la soumission du formulaire:", error);
-    }
+      })
+      .catch((error) => {
+        console.error("Erreur :", error);
+        setError("Échec de l'inscription. Veuillez réessayer.");
+      });
   };
 
   return (
-    <>
-      <div className="centered-container">
-        <h1>Inscription</h1>
-        {error && <p className="error">{error}</p>}
-        <Form method="post" onSubmit={handleSubmit}>
-          <Input
-            type="text"
-            placeholder="Pseudo"
-            name="pseudo"
-            value={formData.pseudo}
-            onChange={handleInputChange}
-          />
-          <Input
-            type="email"
-            placeholder="Email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-          <Input
-            type="password"
-            placeholder="Mot de passe"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-          <Input
-            type="password"
-            placeholder="Confirmation mot de passe"
-            name="passwordConf"
-            value={formData.passwordConf}
-            onChange={handleInputChange}
-          />
-          <button type="submit">S'enregistrer</button>
-        </Form>
-        <a href="./login">Connectez vous ici si vous avez déjà un compte!</a>
-      </div>
-    </>
+    <div className="centered-container">
+      <h1>Inscription</h1>
+      {error && <p className="error">{error}</p>}
+      <form onSubmit={handleSubmit}>
+        <Input
+          type="text"
+          placeholder="Pseudo"
+          name="pseudo"
+          value={formData.pseudo}
+          onChange={handleInputChange}
+        />
+        <Input
+          type="email"
+          placeholder="Email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+        />
+        <Input
+          type="password"
+          placeholder="Mot de passe"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+        />
+        <Input
+          type="password"
+          placeholder="Confirmation mot de passe"
+          name="passwordConf"
+          value={formData.passwordConf}
+          onChange={handleInputChange}
+        />
+        <button type="submit">S'enregistrer</button>
+      </form>
+      <a href="./login">Connectez-vous ici si vous avez déjà un compte !</a>
+    </div>
   );
 };
 
